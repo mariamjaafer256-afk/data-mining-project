@@ -1,0 +1,132 @@
+﻿layer,table,column,data_type,definition,source,pii_flag,nullable,quality_rule
+bronze,device,id,VARCHAR(50),Event identifier as received,CERT r4.2 device.csv (via master.dbo.stg_device),no,yes,none (raw)
+bronze,device,event_date,VARCHAR(50),Raw event date as text,CERT r4.2 device.csv (via master.dbo.stg_device),no,yes,none (raw)
+bronze,device,user_id,VARCHAR(50),Business key of the employee (CERT user id),CERT r4.2 device.csv (via master.dbo.stg_device),no,yes,none (raw)
+bronze,device,pc,VARCHAR(50),PC identifier,CERT r4.2 device.csv (via master.dbo.stg_device),no,yes,none (raw)
+bronze,device,activity,VARCHAR(50),"Raw activity text (Logon/Logoff, Connect/Disconnect)",CERT r4.2 device.csv (via master.dbo.stg_device),no,yes,none (raw)
+bronze,device,source_file,VARCHAR(500),Provenance: file the row came from,CERT r4.2 device.csv (via master.dbo.stg_device),no,yes,none (raw)
+bronze,device,ingested_at,DATETIME2(7),Provenance: when Bronze loaded the row,CERT r4.2 device.csv (via master.dbo.stg_device),no,no,none (raw)
+bronze,http_email_raw,line_id,INT,Line number,CERT r4.2 http/email/answer files (raw lines),no,no,none (raw)
+bronze,http_email_raw,source_file,NVARCHAR(200),Provenance: file the row came from,CERT r4.2 http/email/answer files (raw lines),no,yes,none (raw)
+bronze,http_email_raw,line,NVARCHAR(max),Raw source line,CERT r4.2 http/email/answer files (raw lines),no,yes,none (raw)
+bronze,http_email_raw,ingested_at,DATETIME2(7),Provenance: when Bronze loaded the row,CERT r4.2 http/email/answer files (raw lines),no,no,none (raw)
+bronze,insiders,line,NVARCHAR(max),Raw source line,CERT r4.2 insiders.csv (answers),no,yes,none (raw)
+bronze,insiders,source_file,NVARCHAR(100),Provenance: file the row came from,CERT r4.2 insiders.csv (answers),no,yes,none (raw)
+bronze,insiders,ingested_at,DATETIME2(7),Provenance: when Bronze loaded the row,CERT r4.2 insiders.csv (answers),no,no,none (raw)
+bronze,ldap,employee_name,NVARCHAR(200),Employee name,CERT r4.2 LDAP monthly snapshots,yes,yes,none (raw)
+bronze,ldap,user_id,NVARCHAR(50),Business key of the employee (CERT user id),CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,email,NVARCHAR(200),Employee email,CERT r4.2 LDAP monthly snapshots,yes,yes,none (raw)
+bronze,ldap,role,NVARCHAR(100),Job role,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,business_unit,NVARCHAR(100),Business unit,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,functional_unit,NVARCHAR(200),Functional unit,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,department,NVARCHAR(200),Department,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,team,NVARCHAR(200),Team,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,supervisor,NVARCHAR(200),Supervisor name,CERT r4.2 LDAP monthly snapshots,yes,yes,none (raw)
+bronze,ldap,snapshot_month,CHAR(7),Month of the LDAP snapshot,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,source_file,NVARCHAR(100),Provenance: file the row came from,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,snapshot_date,DATE,Date of the LDAP snapshot,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,supervisor_clean,NVARCHAR(200),Supervisor name after cleaning,CERT r4.2 LDAP monthly snapshots,yes,yes,none (raw)
+bronze,ldap,bronze_source,NVARCHAR(100),Bronze source tag,CERT r4.2 LDAP monthly snapshots,no,yes,none (raw)
+bronze,ldap,bronze_load_ts,DATETIME2(7),Bronze load timestamp,CERT r4.2 LDAP monthly snapshots,no,no,none (raw)
+bronze,logon,id,VARCHAR(50),Event identifier as received,CERT r4.2 logon.csv (via master.dbo.stg_logon),no,yes,none (raw)
+bronze,logon,event_date,VARCHAR(50),Raw event date as text,CERT r4.2 logon.csv (via master.dbo.stg_logon),no,yes,none (raw)
+bronze,logon,user_id,VARCHAR(50),Business key of the employee (CERT user id),CERT r4.2 logon.csv (via master.dbo.stg_logon),no,yes,none (raw)
+bronze,logon,pc,VARCHAR(50),PC identifier,CERT r4.2 logon.csv (via master.dbo.stg_logon),no,yes,none (raw)
+bronze,logon,activity,VARCHAR(50),"Raw activity text (Logon/Logoff, Connect/Disconnect)",CERT r4.2 logon.csv (via master.dbo.stg_logon),no,yes,none (raw)
+bronze,logon,source_file,VARCHAR(500),Provenance: file the row came from,CERT r4.2 logon.csv (via master.dbo.stg_logon),no,yes,none (raw)
+bronze,logon,ingested_at,DATETIME2(7),Provenance: when Bronze loaded the row,CERT r4.2 logon.csv (via master.dbo.stg_logon),no,no,none (raw)
+bronze,psychometric,employee_name,NVARCHAR(200),Employee name,CERT r4.2 psychometric.csv,yes,yes,none (raw)
+bronze,psychometric,user_id,NVARCHAR(50),Business key of the employee (CERT user id),CERT r4.2 psychometric.csv,no,yes,none (raw)
+bronze,psychometric,source_file,NVARCHAR(100),Provenance: file the row came from,CERT r4.2 psychometric.csv,no,yes,none (raw)
+bronze,psychometric,ingested_at,DATETIME2(7),Provenance: when Bronze loaded the row,CERT r4.2 psychometric.csv,no,no,none (raw)
+silver,activity,event_id,NVARCHAR(50),Event identifier,silver.logon + silver.device + other events,no,yes,TODO
+silver,activity,event_time,DATETIME,When the event happened,silver.logon + silver.device + other events,no,yes,TODO
+silver,activity,user,NVARCHAR(50),Business key of the employee (CERT user id),silver.logon + silver.device + other events,no,yes,TODO
+silver,activity,pc,NVARCHAR(50),PC identifier,silver.logon + silver.device + other events,no,yes,TODO
+silver,activity,event_type,VARCHAR(10),"Type of event (logon, device, ...)",silver.logon + silver.device + other events,no,yes,TODO
+silver,activity,detail,NVARCHAR(max),Event detail,silver.logon + silver.device + other events,no,yes,TODO
+silver,activity,source,VARCHAR(12),Source system of the event,silver.logon + silver.device + other events,no,no,not empty
+silver,activity,scenario,INT,Insider attack scenario (1 to 3 in r4.2); NULL for normal users,silver.logon + silver.device + other events,no,yes,TODO
+silver,activity,is_insider,BIT,"Ground-truth label: 1 = malicious insider, 0 = normal user",silver.logon + silver.device + other events,no,no,not empty
+silver,device,device_id,VARCHAR(50),Event identifier,bronze.device,no,yes,TODO
+silver,device,device_time,DATETIME2(7),Time of the device event,bronze.device,no,yes,TODO
+silver,device,user_id,VARCHAR(50),Business key of the employee (CERT user id),bronze.device,no,yes,TODO
+silver,device,pc,VARCHAR(50),PC identifier,bronze.device,no,yes,TODO
+silver,device,activity,VARCHAR(20),"Raw activity text (Logon/Logoff, Connect/Disconnect)",bronze.device,no,yes,TODO
+silver,dim_user,user_id,NVARCHAR(50),Business key of the employee (CERT user id),silver.ldap + silver.psychometric,no,yes,TODO
+silver,dim_user,employee_name,NVARCHAR(200),Employee name,silver.ldap + silver.psychometric,yes,yes,TODO
+silver,dim_user,email,NVARCHAR(200),Employee email,silver.ldap + silver.psychometric,yes,yes,TODO
+silver,dim_user,role,NVARCHAR(100),Job role,silver.ldap + silver.psychometric,no,yes,TODO
+silver,dim_user,business_unit,NVARCHAR(100),Business unit,silver.ldap + silver.psychometric,no,yes,TODO
+silver,dim_user,functional_unit,NVARCHAR(200),Functional unit,silver.ldap + silver.psychometric,no,yes,TODO
+silver,dim_user,department,NVARCHAR(200),Department,silver.ldap + silver.psychometric,no,yes,TODO
+silver,dim_user,team,NVARCHAR(200),Team,silver.ldap + silver.psychometric,no,yes,TODO
+silver,dim_user,supervisor,NVARCHAR(200),Supervisor name,silver.ldap + silver.psychometric,yes,yes,TODO
+silver,insiders,dataset,NVARCHAR(10),CERT dataset version,bronze.insiders,no,yes,TODO
+silver,insiders,scenario,INT,Insider attack scenario (1 to 3 in r4.2); NULL for normal users,bronze.insiders,no,yes,TODO
+silver,insiders,details,NVARCHAR(100),Reference to the answer file,bronze.insiders,no,yes,TODO
+silver,insiders,user,NVARCHAR(20),Business key of the employee (CERT user id),bronze.insiders,no,yes,TODO
+silver,insiders,start_dt,DATETIME,Start of the malicious activity,bronze.insiders,no,yes,TODO
+silver,insiders,end_dt,DATETIME,End of the malicious activity,bronze.insiders,no,yes,TODO
+silver,ldap,employee_name,VARCHAR(100),Employee name,bronze.ldap,yes,yes,TODO
+silver,ldap,user_id,VARCHAR(50),Business key of the employee (CERT user id),bronze.ldap,no,yes,TODO
+silver,ldap,email,VARCHAR(100),Employee email,bronze.ldap,yes,yes,TODO
+silver,ldap,role,VARCHAR(50),Job role,bronze.ldap,no,yes,TODO
+silver,ldap,business_unit,VARCHAR(50),Business unit,bronze.ldap,no,yes,TODO
+silver,ldap,functional_unit,VARCHAR(50),Functional unit,bronze.ldap,no,yes,TODO
+silver,ldap,department,VARCHAR(50),Department,bronze.ldap,no,yes,TODO
+silver,ldap,team,VARCHAR(50),Team,bronze.ldap,no,yes,TODO
+silver,ldap,supervisor,VARCHAR(100),Supervisor name,bronze.ldap,yes,yes,TODO
+silver,logon,logon_id,VARCHAR(50),Event identifier,bronze.logon,no,yes,TODO
+silver,logon,logon_time,DATETIME2(7),Time of the logon event,bronze.logon,no,yes,TODO
+silver,logon,user_id,VARCHAR(50),Business key of the employee (CERT user id),bronze.logon,no,yes,TODO
+silver,logon,pc,VARCHAR(50),PC identifier,bronze.logon,no,yes,TODO
+silver,logon,activity,VARCHAR(20),"Raw activity text (Logon/Logoff, Connect/Disconnect)",bronze.logon,no,yes,TODO
+silver,psychometric,employee_name,VARCHAR(100),Employee name,bronze.psychometric,yes,yes,TODO
+silver,psychometric,user_id,VARCHAR(50),Business key of the employee (CERT user id),bronze.psychometric,no,yes,TODO
+silver,psychometric,openness,FLOAT,Big Five: openness,bronze.psychometric,no,yes,TODO
+silver,psychometric,conscientiousness,FLOAT,Big Five: conscientiousness,bronze.psychometric,no,yes,TODO
+silver,psychometric,extraversion,FLOAT,Big Five: extraversion,bronze.psychometric,no,yes,TODO
+silver,psychometric,agreeableness,FLOAT,Big Five: agreeableness,bronze.psychometric,no,yes,TODO
+silver,psychometric,neuroticism,FLOAT,Big Five: neuroticism,bronze.psychometric,no,yes,TODO
+silver,reject_log,reject_id,INT,Reject row id,silver load rules,no,no,not empty
+silver,reject_log,source_table,VARCHAR(100),Table the rejected row came from,silver load rules,no,yes,TODO
+silver,reject_log,row_data,VARCHAR(max),Rejected row content,silver load rules,no,yes,TODO
+silver,reject_log,reason,VARCHAR(255),Why the row was rejected,silver load rules,no,yes,TODO
+silver,reject_log,rejected_at,DATETIME2(7),When the row was rejected,silver load rules,no,yes,TODO
+gold,dim_user,user_key,BIGINT,Surrogate key of the user,silver.dim_user,no,yes,TODO
+gold,dim_user,user_id,VARCHAR(50),Business key of the employee (CERT user id),silver.dim_user,no,yes,TODO
+gold,dim_user,employee_name,VARCHAR(100),Employee name,silver.dim_user,yes,yes,TODO
+gold,dim_user,email,VARCHAR(100),Employee email,silver.dim_user,yes,yes,TODO
+gold,dim_user,role,VARCHAR(50),Job role,silver.dim_user,no,yes,TODO
+gold,dim_user,business_unit,VARCHAR(50),Business unit,silver.dim_user,no,yes,TODO
+gold,dim_user,functional_unit,VARCHAR(50),Functional unit,silver.dim_user,no,yes,TODO
+gold,dim_user,department,VARCHAR(50),Department,silver.dim_user,no,yes,TODO
+gold,dim_user,team,VARCHAR(50),Team,silver.dim_user,no,yes,TODO
+gold,dim_user,supervisor,VARCHAR(100),Supervisor name,silver.dim_user,yes,yes,TODO
+gold,dim_user,openness,FLOAT,Big Five: openness,silver.dim_user,no,yes,TODO
+gold,dim_user,conscientiousness,FLOAT,Big Five: conscientiousness,silver.dim_user,no,yes,TODO
+gold,dim_user,extraversion,FLOAT,Big Five: extraversion,silver.dim_user,no,yes,TODO
+gold,dim_user,agreeableness,FLOAT,Big Five: agreeableness,silver.dim_user,no,yes,TODO
+gold,dim_user,neuroticism,FLOAT,Big Five: neuroticism,silver.dim_user,no,yes,TODO
+gold,fact_activity,activity_key,BIGINT,Surrogate key of the event,silver.activity,no,yes,TODO
+gold,fact_activity,user_key,BIGINT,Surrogate key of the user,silver.activity,no,yes,TODO
+gold,fact_activity,pc_key,BIGINT,Surrogate key of the PC,silver.activity,no,yes,TODO
+gold,fact_activity,activity_time,DATETIME2(7),When the event happened,silver.activity,no,yes,TODO
+gold,fact_activity,activity_type,VARCHAR(6),Type of event,silver.activity,no,no,not empty
+gold,fact_activity,activity_detail,VARCHAR(20),Event detail (truncated),silver.activity,no,yes,TODO
+gold,dim_pc,pc_key,BIGINT,Surrogate key of the PC,silver.activity (pc),no,yes,TODO
+gold,dim_pc,pc_id,VARCHAR(50),Business key of the PC,silver.activity (pc),no,yes,TODO
+gold,user_features,user_id,NVARCHAR(50),Business key of the employee (CERT user id),silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,role,NVARCHAR(100),Job role,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,department,NVARCHAR(200),Department,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,is_insider,INT,"Ground-truth label: 1 = malicious insider, 0 = normal user",silver.activity + silver.dim_user + silver.insiders,no,no,not empty
+gold,user_features,scenario,INT,Insider attack scenario (1 to 3 in r4.2); NULL for normal users,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,total_events,INT,All activity events of the user,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,logons,INT,Logon events of the user,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,after_hours_logons,INT,Logons outside working hours,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,usb_connects,INT,USB connect events,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,http_events,INT,Web (http) events,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,email_events,INT,Email events,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,distinct_pcs,INT,Distinct PCs used,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO
+gold,user_features,active_days,INT,Days with at least one event,silver.activity + silver.dim_user + silver.insiders,no,yes,TODO

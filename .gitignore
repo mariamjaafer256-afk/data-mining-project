@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+# Secrets and local settings (never commit)
+.env
+# Source data and exports stay out of Git
+data/raw/*
+data/exports/*
+!data/**/.gitkeep
+# SQL Server files
+*.mdf
+*.ldf
+*.bak
+# Models
+models/*.bin
+models/*.pkl

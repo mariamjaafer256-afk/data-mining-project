@@ -1,0 +1,49 @@
+# Semantic layer: one entry per business metric. Dashboards, analysts and any assistant use these definitions.
+# Required keys: name, label, definition, owner, grain, sql, dimensions, null_policy, validation_query
+# Check with: pytest tests/test_metrics_yaml.py      Load with: python -m src.semantic.sync_metrics
+metrics:
+  - name: insider_count
+    label: "Number of insiders"
+    definition: "Number of users labelled as malicious insiders in the ground truth (insiders.csv)."
+    owner: "TODO: team member"
+    grain: "one user (gold.user_features)"
+    sql: "SUM(is_insider)"
+    dimensions: [scenario, department, role]
+    null_policy: "is_insider is NOT NULL, so every user counts."
+    validation_query: "SELECT COUNT(DISTINCT [user]) FROM silver.insiders WHERE dataset LIKE '%4.2%'"
+  - name: insider_rate
+    label: "Insider rate"
+    definition: "Share of users that are insiders (insiders divided by users)."
+    owner: "TODO: team member"
+    grain: "one user (gold.user_features)"
+    sql: "CAST(SUM(is_insider) AS float) / COUNT(*)"
+    dimensions: [department, role]
+    null_policy: "Every user has a label; no NULL handling needed."
+    validation_query: "SELECT CAST(COUNT(*) AS float) / (SELECT COUNT(*) FROM silver.dim_user) FROM gold.user_features WHERE is_insider = 1"
+  - name: total_activities
+    label: "Total activity events"
+    definition: "Number of activity events (logon, device and any other type) in the unified activity table."
+    owner: "TODO: team member"
+    grain: "one event (silver.activity)"
+    sql: "COUNT_BIG(*)"
+    dimensions: [event_type, year_number, month_number]
+    null_policy: "Counts every event, including events with a NULL detail."
+    validation_query: "SELECT SUM(n) FROM (SELECT COUNT_BIG(*) AS n FROM silver.activity GROUP BY event_type) x"
+  - name: avg_usb_connects
+    label: "Average USB connects per user"
+    definition: "Average number of USB device connect events per user."
+    owner: "TODO: team member"
+    grain: "one user (gold.user_features)"
+    sql: "AVG(CAST(usb_connects AS float))"
+    dimensions: [is_insider, scenario, department]
+    null_policy: "A NULL count is ignored by AVG; users with zero USB events count as 0."
+    validation_query: "SELECT SUM(CAST(usb_connects AS float)) / COUNT(usb_connects) FROM gold.user_features"
+  - name: after_hours_logon_ratio
+    label: "After-hours logon ratio"
+    definition: "After-hours logons divided by all logons (after-hours window as defined when gold.user_features was built)."
+    owner: "TODO: team member"
+    grain: "one user (gold.user_features)"
+    sql: "SUM(after_hours_logons) * 1.0 / NULLIF(SUM(logons), 0)"
+    dimensions: [is_insider, department]
+    null_policy: "NULLIF avoids division by zero; groups without logons return NULL."
+    validation_query: "SELECT SUM(CAST(after_hours_logons AS float)) / NULLIF(SUM(CAST(logons AS float)), 0) FROM gold.user_features"
